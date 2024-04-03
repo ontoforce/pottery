@@ -240,6 +240,7 @@ class Redlock(Scripts, Primitive):
                  num_extensions: int = _NUM_EXTENSIONS,
                  context_manager_blocking: bool = True,
                  context_manager_timeout: float = -1,
+                 uuid_generator = None,
                  ) -> None:
         '''Initialize a Redlock.
 
@@ -272,6 +273,7 @@ class Redlock(Scripts, Primitive):
         self.num_extensions = num_extensions
         self.context_manager_blocking = context_manager_blocking
         self.context_manager_timeout = context_manager_timeout
+        self._uuid_generator = uuid_generator
         self._uuid = ''
         self._extension_num = 0
 
@@ -319,7 +321,7 @@ class Redlock(Scripts, Primitive):
                          *,
                          raise_on_redis_errors: bool | None = None,
                          ) -> bool:
-        self._uuid = str(uuid.uuid4())
+        self._uuid = self._uuid_generator() if self._uuid_generator else str(uuid.uuid4())
         self._extension_num = 0
 
         with ContextTimer() as timer, BailOutExecutor() as executor:
