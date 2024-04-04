@@ -221,6 +221,8 @@ class Redlock(Scripts, Primitive):
         'num_extensions',
         'context_manager_blocking',
         'context_manager_timeout',
+        'uuid_generator',
+        '_uuid_generator',
         '_uuid',
         '_extension_num',
     )
